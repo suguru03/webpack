@@ -39,6 +39,7 @@
     "express": "~4.13.1",
     "file-loader": "^1.1.6",
     "glob": "^7.1.2",
+    "husky": "^0.14.3",
     "i18n-webpack-plugin": "^1.0.0",
     "istanbul": "^0.4.5",
     "jade": "^1.11.0",
@@ -47,6 +48,7 @@
     "json-loader": "^0.5.7",
     "less": "^2.5.1",
     "less-loader": "^4.0.3",
+    "lint-staged": "^6.0.1",
     "lodash": "^4.17.4",
     "mocha": "^3.2.0",
     "mocha-lcov-reporter": "^1.0.0",
@@ -86,6 +88,7 @@
     "schemas/"
   ],
   "scripts": {
+    "precommit": "lint-staged",
     "test": "mocha test/*.test.js test/*.unittest.js --max-old-space-size=4096 --harmony --trace-deprecation",
     "test:integration": "mocha test/*.test.js --max-old-space-size=4096 --harmony --trace-deprecation",
     "test:unit": "mocha test/*.unittest.js --max-old-space-size=4096 --harmony --trace-deprecation",
@@ -100,10 +103,10 @@
     "circleci:lint": "npm run lint-files",
     "build:examples": "cd examples && node buildAll.js",
     "pretest": "npm run lint-files",
-    "lint-files": "npm run lint && npm run beautify-lint && npm run schema-lint",
+    "lint-files": "npm run lint && npm run beautify-lint-all && npm run schema-lint",
     "lint": "eslint lib bin hot buildin \"test/*.js\" \"test/**/webpack.config.js\" \"examples/**/webpack.config.js\"",
     "fix": "npm run lint -- --fix",
-    "beautify-lint": "beautify-lint \"lib/**/*.js\" \"hot/**/*.js\" \"bin/**/*.js\" \"benchmark/*.js\" \"test/*.js\" \"test/**/webpack.config.js\" \"examples/**/webpack.config.js\"",
+    "beautify-lint-all": "beautify-lint \"lib/**/*.js\" \"hot/**/*.js\" \"bin/**/*.js\" \"benchmark/*.js\" \"test/*.js\" \"test/**/webpack.config.js\" \"examples/**/webpack.config.js\"",
     "schema-lint": "mocha test/*.lint.js --opts test/lint-mocha.opts",
     "benchmark": "mocha --max-old-space-size=4096 --harmony --trace-deprecation test/*.benchmark.js -R spec",
     "cover": "npm run cover:init && npm run cover:all && npm run cover:report",
@@ -113,6 +116,12 @@
     "cover:unit": "node --max-old-space-size=4096 --harmony --trace-deprecation ./node_modules/istanbul/lib/cli.js cover --report none node_modules/mocha/bin/_mocha -- test/*.unittest.js",
     "cover:report": "istanbul report",
     "cover:report-min": "istanbul report --report lcovonly",
-    "publish-patch": "npm run lint && npm run beautify-lint && mocha && npm version patch && git push && git push --tags && npm publish"
+    "publish-patch": "npm run lint && npm run beautify-lint-all && mocha && npm version patch && git push && git push --tags && npm publish"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint",
+      "beautify-lint"
+    ]
   }
 }
