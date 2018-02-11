@@ -109,7 +109,7 @@
     "cover": "npm run cover:init && npm run cover:all && npm run cover:report",
     "cover:init": "rimraf coverage",
     "cover:all": "node --max-old-space-size=4096 --harmony --trace-deprecation ./node_modules/istanbul/lib/cli.js cover --report none node_modules/mocha/bin/_mocha -- test/*.test.js test/*.unittest.js",
-    "cover:integration": "node --max-old-space-size=4096 --harmony --trace-deprecation ./node_modules/istanbul/lib/cli.js cover --report none node_modules/mocha/bin/_mocha -- test/*.test.js",
+    "cover:integration": "node --max-old-space-size=4096 --harmony --trace-deprecation ./node_modules/istanbul/lib/cli.js cover --report none node_modules/mocha/bin/_mocha -- test/*.test.js --reporter spec",
     "cover:unit": "node --max-old-space-size=4096 --harmony --trace-deprecation ./node_modules/istanbul/lib/cli.js cover --report none node_modules/mocha/bin/_mocha -- test/*.unittest.js",
     "cover:report": "istanbul report",
     "cover:report-min": "istanbul report --report lcovonly",
